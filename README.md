@@ -18,7 +18,7 @@ git clone https://github.com/sheetalvarsani/tic-tac-toe.git
 ### Navigate to the Directory
 
 ```bash
-cd java_tic-tac-toe.git/src
+cd tic-tac-toe.git/src
 ```
 
 ### Compile the Code
