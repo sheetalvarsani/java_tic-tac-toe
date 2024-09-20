@@ -12,7 +12,7 @@ Welcome to the Tic Tac Toe game! This is a simple console-based implementation o
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/sheetalvarsani/java_tic-tac-toe.git
+git clone https://github.com/sheetalvarsani/tic-tac-toe.git
 ```
 
 ### Navigate to the Directory
