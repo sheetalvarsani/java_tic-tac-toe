@@ -18,7 +18,19 @@ public class TicTacToe {
             printCurrentBoard(gameBoard);
             getUserInput(gameBoard, xTurn); // Get user input
 
-            // Check for a winner or tie here (to be implemented later)
+            // Check for winner
+            if (checkForWinner(gameBoard)) {
+                printCurrentBoard(gameBoard);
+                System.out.println("Player " + (xTurn ? "X" : "O") + " wins!");
+                break; // End game if winner
+            }
+
+            // Check for tie
+            if (isTie(gameBoard)) {
+                printCurrentBoard(gameBoard);
+                System.out.println("\nIt's a tie!");
+                break; // End the game
+            }
 
             // Switch players
             xTurn = !xTurn; // Toggle turn
@@ -29,14 +41,14 @@ public class TicTacToe {
     public static void initialiseGameBoard(String[][] gameBoard) {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
-                gameBoard[col][row] = " "; // epmty space for each cell
+                gameBoard[col][row] = " "; // empty space for each cell
             }
         }
     }
 
     // Print state of board
     public static void printCurrentBoard(String[][] gameBoard) {
-        System.out.println("Current Board:");
+        System.out.println("\nCurrent Board:\n");
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 System.out.print(" " + gameBoard[col][row] + " ");
@@ -53,7 +65,7 @@ public class TicTacToe {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.print("Player " + (xTurn ? "X" : "O") + ", enter your move (column and row [1-3] eg. 2 1): ");
+            System.out.print("\nPlayer " + (xTurn ? "X" : "O") + ", enter your move (column and row [1-3] eg. 2 1): ");
             String input = scanner.nextLine();
 
             String[] parts = input.split(" "); // Split string by space
@@ -91,4 +103,45 @@ public class TicTacToe {
     public static boolean cellAlreadyOccupied(int col, int row, String[][] gameBoard) {
         return !gameBoard[col][row].equals(" ");
     }
+
+    public static boolean checkForWinner(String[][] gameBoard) {
+
+        // Check columns
+        for (int col = 0; col < 3; col++) {
+            if (gameBoard[0][col].equals(gameBoard[1][col]) && gameBoard[0][col].equals(gameBoard[2][col]) &&
+                    !gameBoard[0][col].equals(" ")) {
+                return true; // Column win
+            }
+        }
+
+        // Check rows
+        for (int row = 0; row < 3; row++) {
+            if (gameBoard[row][0].equals(gameBoard[row][1]) && gameBoard[row][0].equals(gameBoard[row][2]) &&
+                    !gameBoard[row][0].equals(" ")) {
+                return true; // Row win
+            }
+        }
+
+        // Check diagonals
+        if (gameBoard[0][0].equals(gameBoard[1][1]) && gameBoard[0][0].equals(gameBoard[2][2]) && !gameBoard[0][0].
+                equals(" ")) {
+            return true; // Diagonal win (top-left to bottom-right)
+        }
+        return gameBoard[0][2].equals(gameBoard[1][1]) && gameBoard[0][2].equals(gameBoard[2][0]) && !gameBoard[0][2].
+                equals(" "); // Diagonal win (top-right to bottom-left)
+
+    }
+
+    public static boolean isTie(String[][] gameBoard) {
+        // Check if all cells are occupied
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                if (gameBoard[col][row].equals(" ")) {
+                    return false; // Found an empty cell, not a tie
+                }
+            }
+        }
+        return true; // All cells occupied
+    }
+
 }
