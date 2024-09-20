@@ -6,35 +6,48 @@ public class TicTacToe {
     }
 
     public static void runGame() {
+        Scanner scanner = new Scanner(System.in);
         String[][] gameBoard = new String[3][3]; // create 3x3 board
         boolean xTurn = true; // variable if its player X to start
         int col, row; // Declare col and row variables
+        boolean playAgain;
 
-        // Initialise game board
-        initialiseGameBoard(gameBoard);
+        do {
+            // Initialise game board
+            initialiseGameBoard(gameBoard);
 
-        // Main game loop
-        while (true) {
-            printCurrentBoard(gameBoard);
-            getUserInput(gameBoard, xTurn); // Get user input
-
-            // Check for winner
-            if (checkForWinner(gameBoard)) {
+            // Main game loop
+            while (true) {
                 printCurrentBoard(gameBoard);
-                System.out.println("Player " + (xTurn ? "X" : "O") + " wins!");
-                break; // End game if winner
+                getUserInput(gameBoard, xTurn, scanner); // Get user input
+
+                // Check for winner
+                if (checkForWinner(gameBoard)) {
+                    printCurrentBoard(gameBoard);
+                    System.out.println("\nPlayer " + (xTurn ? "X" : "O") + " wins!");
+                    break; // End game if winner
+                }
+
+                // Check for tie
+                if (isTie(gameBoard)) {
+                    printCurrentBoard(gameBoard);
+                    System.out.println("\nIt's a tie!");
+                    break; // End the game
+                }
+
+                // Switch players
+                xTurn = !xTurn; // Toggle turn
             }
 
-            // Check for tie
-            if (isTie(gameBoard)) {
-                printCurrentBoard(gameBoard);
-                System.out.println("\nIt's a tie!");
-                break; // End the game
-            }
+            // Ask if the player wants to play again
+            System.out.print("\nDo you want to play again? (y/n): ");
+            String response = scanner.nextLine().trim().toLowerCase();
+            playAgain = response.equals("y");
 
-            // Switch players
-            xTurn = !xTurn; // Toggle turn
-        }
+        } while (playAgain);
+
+        System.out.println("\nBye!"); // Exit message
+
     }
 
     // Initialise game board with empty spaces
@@ -61,8 +74,7 @@ public class TicTacToe {
         }
     }
 
-    public static void getUserInput(String[][] gameBoard, boolean xTurn) {
-        Scanner scanner = new Scanner(System.in);
+    public static void getUserInput(String[][] gameBoard, boolean xTurn, Scanner scanner) {
 
         while (true) {
             System.out.print("\nPlayer " + (xTurn ? "X" : "O") + ", enter your move (column and row [1-3] eg. 2 1): ");
